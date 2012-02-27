@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="distrib" default="all" basedir=".">
+	<property file="build.properties"/>
+	<target name="init">
+		<patternset id="sources.patternset">
+			<exclude name="**/.svn"/>
+			<exclude name="**/.svn/**"/>
+			<exclude name="**/*.class"/>
+			<exclude name="**/classes/**"/>
+			<exclude name="**/*.xpr"/>
+			<exclude name="**/*.aps"/>
+			<exclude name="**/_local_*.*"/>
+			<exclude name="**/.metadata/**"/>
+			<exclude name="**/*.zip"/>
+			<exclude name="**/*.bz2"/>
+			<exclude name="**/*.gem"/>
+			<exclude name="**/output/**"/>
+			<exclude name="**/distrib/**"/>
+		</patternset>
+		<patternset id="resources.patternset">
+			<exclude name="**/.svn"/>
+			<exclude name="**/.svn/**"/>
+			<exclude name="**/*.class"/>
+			<exclude name="**/classes/**"/>
+			<exclude name="**/*.xpr"/>
+			<exclude name="**/*.aps"/>
+			<exclude name="**/_local_*.*"/>
+			<exclude name="**/.metadata/**"/>
+			<exclude name="**/*.zip"/>
+			<exclude name="**/*.bz2"/>
+			<exclude name="**/*.gem"/>
+			<exclude name="**/output/**"/>
+			<exclude name="**/distrib/**"/>
+		</patternset>
+		<patternset id="binaries.patternset">
+			<exclude name="**/.svn"/>
+			<exclude name="**/.svn/**"/>
+			<exclude name="**/_local_*.*"/>
+		</patternset>
+
+		<condition property="isWindows">
+			<os family="windows"/>
+		</condition>
+		<condition property="isMac">
+			<os family="mac"/>
+		</condition>
+		<condition property="isUnixLike">
+			<os family="unix"/>
+		</condition>
+		<condition property="isSunOS">
+			<os name="SunOS"/>
+		</condition>
+		<condition property="isLinux">
+			<os name="Linux"/>
+		</condition>
+		
+		<tstamp/>
+		<mkdir dir="${output.dir}"/>
+	</target>
+	<target name="clean">
+		<delete includeemptydirs="true" quiet="true">
+			<fileset dir="${output.dir}" includes="**/*"/>
+		</delete>
+	</target>
+	<target name="all" description="Build the project" depends="build-dist"/>
+
+	<target name="generate-windows-api-docs" if="isWindows">
+		<exec executable="rdoc.bat" dir="${package.path}/lib" failonerror="true">
+			<arg value="--op"/>
+			<arg value="api"/>
+		</exec>
+	</target>
+	<target name="generate-unix-api-docs" if="isUnixLike">
+		<exec executable="rdoc" dir="${package.path}/lib" failonerror="true">
+			<arg value="--op"/>
+			<arg value="api"/>
+		</exec>
+	</target>
+
+	<target name="build-source-packages">
+		<fileset id="sources.fileset" dir="${package.path}">
+			<patternset refid="sources.patternset"/>
+		</fileset>		
+		<zip destfile="${output.dir}/${package.name}-src-${version}.zip" compress="yes">
+			<zipfileset refid="sources.fileset" prefix="${package.name}-src-${version}"/>
+		</zip>
+		<tar destfile="${output.dir}/${package.name}-src-${version}.tar.bz2" 
+			compression="bzip2">
+			<tarfileset refid="sources.fileset" prefix="${package.name}-src-${version}"/>
+		</tar>
+	</target>
+
+	<target name="build-doc-packages">
+		<zip destfile="${output.dir}/${package.name}-docs-${version}.zip" compress="yes">
+			<zipfileset dir="${package.path}" prefix="${package.name}-docs-${version}" defaultexcludes="yes">
+				<include name="**/doc/**"/>
+				<exclude name="**/doc/*.xpr"/>
+			</zipfileset>
+			<zipfileset dir="${package.path}/lib/api" prefix="${package.name}-docs-${version}/doc/api" defaultexcludes="yes">
+				<include name="**"/>
+			</zipfileset>
+		</zip>
+		<tar destfile="${output.dir}/${package.name}-docs-${version}.tar.bz2" 
+			compression="bzip2">
+			<tarfileset dir="${package.path}" prefix="${package.name}-docs-${version}" defaultexcludes="yes">
+				<include name="**/doc/**"/>
+				<exclude name="**/doc/*.xpr"/>
+			</tarfileset>
+			<tarfileset dir="${package.path}/lib/api" prefix="${package.name}-docs-${version}/doc/api" defaultexcludes="yes">
+				<include name="**"/>
+			</tarfileset>
+		</tar>
+	</target>
+
+	<target name="build-windows-gem-packages" if="isWindows">
+		<exec executable="gem.bat" dir="${package.path}" failonerror="true">
+			<arg value="build"/>
+			<arg value="${gemspec.name}.gemspec"/>
+		</exec>
+		<move todir="${output.dir}">
+			<fileset dir="${package.path}" defaultexcludes="yes">
+				<include name="**/*.gem"/>
+			</fileset>
+		</move>
+	</target>
+	<target name="build-unix-gem-packages" if="isUnixLike">
+		<exec executable="gem" dir="${package.path}" failonerror="true">
+			<arg value="build"/>
+			<arg value="${gemspec.name}.gemspec"/>
+		</exec>
+		<move todir="${output.dir}">
+			<fileset dir="${package.path}" defaultexcludes="yes">
+				<include name="**/*.gem"/>
+			</fileset>
+		</move>
+	</target>
+
+	<target name="build-dist" description="Building zip files" depends="init">
+		<antcall target="clean"/>
+		<antcall target="generate-windows-api-docs"/>
+		<antcall target="generate-unix-api-docs"/>
+		<antcall target="build-source-packages"/>
+		<antcall target="build-doc-packages"/>
+		<antcall target="build-windows-gem-packages"/>
+		<antcall target="build-unix-gem-packages"/>
+	</target>
+
+</project>
