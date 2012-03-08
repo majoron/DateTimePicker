@@ -1,0 +1,31 @@
+= DateTimePicker
+
+A library allows to select date and time. Based on [jQuery UI Datepicker]{http://trentrichardson.com/examples/timepicker/}.
+
+== Requirements
+
+== Installation
+
+Add this to your Gemfile and run the +bundle+ command
+
+  gem 'date_time_picker'
+
+== Configuration
+
+You can set default picker options in config/date_time_picker.yml
+
+The full list of available options you can find on the official jQuery UI Datepicker page.
+
+== Usage
+
+To use the picker inside the form
+
+<%= f.date_time_picker :created_at_since %>
+
+To use it outside the form
+
+<%= date_time_picker :created_at_since %>
+
+To specify special options add them into the end
+
+<%= t.date_time_picker :created_at_since, :ampm => true %>
