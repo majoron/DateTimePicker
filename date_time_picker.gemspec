@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://www.majoron.com/project/rbundle/date_time_picker}
   s.require_paths = ["lib"]
   s.test_files = Dir.glob('spec/**/*')
+  s.dependency 'jquery-rails'
+  s.dependency 'json'
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'capybara'
 

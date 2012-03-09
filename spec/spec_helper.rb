@@ -1,26 +1,19 @@
-$:.unshift File.dirname(__FILE__)
-$:.unshift File.join(File.dirname(__FILE__), '../lib')
+require 'action_controller/railtie'
+require 'active_resource/railtie'
 
-ENV["RAILS_ENV"] = "test"
-require 'rubygems'
-require 'bundler/setup'
-require 'rspec'
-require 'logger'
-require 'rails'
-require 'action_controller'
-require 'date_time_picker'
-
-module Rails
-  module VERSION
-    MAJOR = 3
+module App
+  class Application < Rails::Application
   end
-end unless defined? Rails
-
-# DateTimePicker.root = './'
-RAILS_ROOT = './' unless defined?(RAILS_ROOT)
-RAILS_ENV = 'test' unless defined?(RAILS_ENV)
-
-RSpec.configure do |config|
-  config.mock_with :rspec
 end
 
+ActionController::Base.prepend_view_path 'views'
+
+ENV["RAILS_ENV"] = 'test'
+require 'rspec/rails'
+require 'rspec/autorun'
+require 'capybara'
+Capybara.run_server = true
+
+require '../lib/date_time_picker'
+
+require 'ruby-debug' #FIXME

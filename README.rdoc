@@ -12,7 +12,7 @@ Add this to your Gemfile and run the +bundle+ command
 
 == Configuration
 
-You can set default picker options in config/date_time_picker.yml
+You can set default picker options in config/date_time_picker.yml (or maybe better initializers?)
 
 The full list of available options you can find on the official jQuery UI Datepicker page.
 
@@ -28,4 +28,4 @@ To use it outside the form
 
 To specify special options add them into the end
 
-<%= t.date_time_picker :created_at_since, :ampm => true %>
+<%= t.date_time_picker :created_at_since, :id => 'input_id', :ampm => true %>
