@@ -1,8 +1,10 @@
 = DateTimePicker
 
-A library allows to select date and time. Based on [jQuery UI Datepicker]{http://trentrichardson.com/examples/timepicker/}.
+A library allows to select date and time, which uses jQuery UI.
 
 == Requirements
+
+You should have +jquery-rails+ gem installed and require +jquery+ and +jquery-ui+ assets.
 
 == Installation
 
@@ -12,20 +14,38 @@ Add this to your Gemfile and run the +bundle+ command
 
 == Configuration
 
-You can set default picker options in config/date_time_picker.yml (or maybe better use initializers?)
+You can set default picker options in +config/date_time_picker.yml+
 
-The full list of available options you can find on the official jQuery UI Datepicker page.
+The full list of available options you can find on the {jQuery UI Datepicker docs}[http://docs.jquery.com/UI/Datepicker] and {jQuery UI Timepicker}[http://trentrichardson.com/examples/timepicker/].
+
+== I18n
+
+By default plugin includes most using locales, but if you want to add your locales or/and change one of them, then just add +jquery.ui.datepicker-locale+ and +jquery.ui.timepicker-locale+ into your +app/assets/javascripts+
 
 == Usage
 
+To add necessary assets add into your head
+
+  <%= date_time_picker_assets %>
+  
+You can manually specify locale here
+
+  <%= date_time_picker_assets :ru %>
+
 To use the picker inside the form
 
-<%= f.date_time_picker :created_at_since %>
+  <%= f.date_time_picker :datetime %>
 
 To use it outside the form
 
-<%= date_time_picker :created_at_since %>
+  <%= date_time_picker :datetime %>
 
 To specify special options add them into the end
 
-<%= t.date_time_picker :created_at_since, :id => 'input_id', :ampm => true %>
+  <%= t.date_time_picker :datetime, :id => 'input_id', :class => [:class_1, :class_2], :ampm => true %>
+
+Also available
+
+  <%= date_picker :date_only %>
+
+  <%= time_picker :time_only %>

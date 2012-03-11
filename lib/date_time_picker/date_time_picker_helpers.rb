@@ -1,17 +1,19 @@
 module DateTimePicker
   module ViewHelpers
 
-    def self.helper(name, template, classes, options) # :nodoc:
+    def self.helper(name, template, type, options) # :nodoc:
       value = options.delete :value
       id = options.delete :id
-      classes = [classes]
-      klass = options.delete :class
-      if klass.is_a? Array
-        classes.concat klass
+      classes = options.delete :class
+      case classes
+      when NilClass
+        classes = type
+      when Array
+        classes << type
       else
-        classes << klass
+        classes = [classes, type]
       end
-      template.text_field_tag name, value, :id => id, :class => klass, :data => {:options => options.to_json}
+      template.text_field_tag name, value, :id => id, :class => classes, :data => {:options => options.to_json}
     end
 
     module FormHelpers
@@ -33,15 +35,17 @@ module DateTimePicker
 
     module AssetsHelper
       
-      def date_time_picker_assets
+      def date_time_picker_assets(locale = I18n.locale)
         assets = javascript_include_tag(:date_time_picker) + stylesheet_link_tag(:date_time_picker)
-        localization = "jquery-ui-timepicker-#{I18n.locale}.js"
-        localization = "localization/#{localization}" if Rails.application.assets.find_asset(localization).nil?
+        localization = "jquery.ui.timepicker-#{locale}.js"
+        localization = "localization/jquery-ui-timepicker-#{locale}.js" if Rails.application.assets.find_asset(localization).nil?
         assets.concat(javascript_include_tag(localization)) if Rails.application.assets.find_asset(localization)
-        localization = "jquery.ui.datepicker-#{I18n.locale}.js"
+        localization = "jquery.ui.datepicker-#{locale}.js"
         localization = "ui/i18n/#{localization}" if Rails.application.assets.find_asset(localization).nil?
         assets.concat(javascript_include_tag(localization)) if Rails.application.assets.find_asset(localization)
-        # TODO: LOAD FROM CONFIG
+        config = YAML::load_file(Rails.application.root.join('config', 'date_time_picker.yml')).to_json
+        assets.concat javascript_tag("$(function(){$.datepicker.setDefaults($.parseJSON('#{config}'));});")
+        assets.concat javascript_tag("$(function(){$.timepicker.setDefaults($.parseJSON('#{config}'));});")
         assets
       end
 
