@@ -61,7 +61,7 @@ module DateTimePicker
     module AssetsHelper
       
       def date_time_picker_assets(locale = I18n.locale)
-        assets = javascript_include_tag(:date_time_picker) + stylesheet_link_tag(:date_time_picker)
+        assets = javascript_include_tag(:date_time_picker) + stylesheet_link_tag(:date_time_picker) + javascript_include_tag('jquery-ui-sliderAccess'.to_sym)
         localization = "jquery.ui.timepicker-#{locale}.js"
         localization = "localization/jquery-ui-timepicker-#{locale}.js" if Rails.application.assets.find_asset(localization).nil?
         assets.concat(javascript_include_tag(localization)) if Rails.application.assets.find_asset(localization)
