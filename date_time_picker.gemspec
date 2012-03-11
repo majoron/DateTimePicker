@@ -14,8 +14,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'capybara'
 
-  s.dependency 'jquery-rails'
-  s.dependency 'json'
+  s.add_dependency 'jquery-rails'
+  s.add_dependency 'json'
 
   s.files      = Dir.glob(['lib/**/*', 'vendor/assets/javascripts', 'vendor/assets/stylesheets', 'vendor/assets/jquery-ui/ui/i18n/jquery.ui.datepicker-*.js', 'vendor/assets/timepicker/**/*.js', 'vendor/assets/timepicker/*.css']) + %w(MIT-LICENSE README.rdoc)
   s.test_files = `git ls-files`.split("\n")
