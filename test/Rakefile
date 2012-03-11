@@ -3,5 +3,5 @@
 require 'rspec/core/rake_task'
 task :default => :spec
 RSpec::Core::RakeTask.new do |t|
-  t.pattern = File.expand_path './**/*_spec.rb'
+  t.pattern = File.expand_path 'spec/*_spec.rb'
 end

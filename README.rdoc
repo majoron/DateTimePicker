@@ -12,7 +12,7 @@ Add this to your Gemfile and run the +bundle+ command
 
 == Configuration
 
-You can set default picker options in config/date_time_picker.yml (or maybe better initializers?)
+You can set default picker options in config/date_time_picker.yml (or maybe better use initializers?)
 
 The full list of available options you can find on the official jQuery UI Datepicker page.
 

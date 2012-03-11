@@ -1,3 +1,6 @@
-[submodule "vendor/assets/picker"]
-	path = vendor/assets/picker
+[submodule "vendor/assets/timepicker"]
+	path = vendor/assets/timepicker
 	url = git://github.com/trentrichardson/jQuery-Timepicker-Addon.git
+[submodule "vendor/assets/jquery-ui"]
+	path = vendor/assets/jquery-ui
+	url = git://github.com/jquery/jquery-ui.git

@@ -1,9 +1,19 @@
-//= require ../picker/jquery-ui-timepicker-addon
-//= require_tree ../picker/localization
+//= require jquery-ui-timepicker-addon
 
-$("hasDatepicker").each(function() {
-  var picker = $(this);
-  var fn = window[picker.attr("data-function")];
-  var options = $.parseJSON(picker.attr("data-options"));
-  picker[fn](options)
+$(function() { //FIXME
+   $(".datepicker").each(function() {
+     var picker = $(this);
+     var options = $.parseJSON(picker.attr("data-options"));
+     picker.datepicker(options);
+   });
+   $(".datetimepicker").each(function() {
+     var picker = $(this);
+     var options = $.parseJSON(picker.attr("data-options"));
+     picker.datetimepicker(options);
+   });
+   $(".timepicker").each(function() {
+     var picker = $(this);
+     var options = $.parseJSON(picker.attr("data-options"));
+     picker.timepicker(options);
+   });
 });
