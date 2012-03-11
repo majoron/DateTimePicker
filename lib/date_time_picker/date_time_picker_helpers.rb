@@ -1,34 +1,59 @@
 module DateTimePicker
   module ViewHelpers
 
-    def self.helper(name, template, type, options) # :nodoc:
+    def self.helper(name, template, method, options) # :nodoc:
       value = options.delete :value
       id = options.delete :id
       classes = options.delete :class
       case classes
       when NilClass
-        classes = type
+        classes = method
       when Array
-        classes << type
+        classes << method
       else
-        classes = [classes, type]
+        classes = [classes, method]
       end
       template.text_field_tag name, value, :id => id, :class => classes, :data => {:options => options.to_json}
     end
 
-    module FormHelpers
+    def self.restore_args(args, method)
+      case args.count
+      when 1
+        name = args[0]
+        options = {}
+      when 2
+        name = args[0]
+        options = args[1]
+      else
+        raise ArgumentError.new(args.count)
+      end
+      method = method.to_s.gsub '_', ''
+      return name, options, method
+    end
 
-      def date_time_picker(name, options={})
-        options[:id] ||= "#{object_name}_#{name}"
-        ViewHelpers.helper("#{object_name}[#{name}]", @template, :datetimepicker, options)
+    module FormHelpers
+      
+      def self.included(base)
+        ['date_time_picker', 'date_picker', 'time_picker'].each do |method|
+          base.send :define_method, method do |*args|
+            name, options, method = ViewHelpers.restore_args(args, __method__)
+            options[:id] ||= "#{object_name}_#{name}"
+            ViewHelpers.helper("#{object_name}[#{name}]", @template, method, options)
+          end
+        end
       end
 
     end
 
     module TagHelpers
       
-      def date_time_picker(name, options={})
-        ViewHelpers.helper(name, self, :datetimepicker, options)
+      def self.included(base)
+        ['date_time_picker', 'date_picker', 'time_picker'].each do |method|
+          base.send :define_method, method do |*args|
+            name, options, method = ViewHelpers.restore_args(args, __method__)
+            ViewHelpers.helper(name, self, method, options)
+          end
+        end
       end
 
     end
@@ -43,9 +68,12 @@ module DateTimePicker
         localization = "jquery.ui.datepicker-#{locale}.js"
         localization = "ui/i18n/#{localization}" if Rails.application.assets.find_asset(localization).nil?
         assets.concat(javascript_include_tag(localization)) if Rails.application.assets.find_asset(localization)
-        config = YAML::load_file(Rails.application.root.join('config', 'date_time_picker.yml')).to_json
-        assets.concat javascript_tag("$(function(){$.datepicker.setDefaults($.parseJSON('#{config}'));});")
-        assets.concat javascript_tag("$(function(){$.timepicker.setDefaults($.parseJSON('#{config}'));});")
+        begin
+          config = YAML::load_file(Rails.application.root.join('config', 'date_time_picker.yml')).to_json
+          assets.concat javascript_tag("$(function(){$.datepicker.setDefaults($.parseJSON('#{config}'));});")
+          assets.concat javascript_tag("$(function(){$.timepicker.setDefaults($.parseJSON('#{config}'));});")
+        rescue
+        end
         assets
       end
 
