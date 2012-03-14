@@ -13,7 +13,9 @@ module DateTimePicker
       else
         classes = [classes, method]
       end
-      template.text_field_tag name, value, :id => id, :class => classes, :data => {:options => options.to_json}
+      locale = options.delete :locale
+      locale ||= I18n.locale
+      template.text_field_tag name, value, :id => id, :class => classes, :data => {:locale => locale, :options => options.to_json}
     end
 
     def self.restore_args(args, method)
@@ -61,20 +63,7 @@ module DateTimePicker
     module AssetsHelper
       
       def date_time_picker_assets(locale = I18n.locale)
-        assets = javascript_include_tag(:date_time_picker) + stylesheet_link_tag(:date_time_picker) + javascript_include_tag('jquery-ui-sliderAccess'.to_sym)
-        localization = "jquery.ui.timepicker-#{locale}.js"
-        localization = "localization/jquery-ui-timepicker-#{locale}.js" if Rails.application.assets.find_asset(localization).nil?
-        assets.concat(javascript_include_tag(localization)) if Rails.application.assets.find_asset(localization)
-        localization = "jquery.ui.datepicker-#{locale}.js"
-        localization = "ui/i18n/#{localization}" if Rails.application.assets.find_asset(localization).nil?
-        assets.concat(javascript_include_tag(localization)) if Rails.application.assets.find_asset(localization)
-        begin
-          config = YAML::load_file(Rails.application.root.join('config', 'date_time_picker.yml')).to_json
-          assets.concat javascript_tag("$(function(){$.datepicker.setDefaults($.parseJSON('#{config}'));});")
-          assets.concat javascript_tag("$(function(){$.timepicker.setDefaults($.parseJSON('#{config}'));});")
-        rescue
-        end
-        assets
+        javascript_include_tag(:date_time_picker) + stylesheet_link_tag(:date_time_picker)
       end
 
     end
