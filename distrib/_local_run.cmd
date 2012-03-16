@@ -10,6 +10,7 @@ SET PATH=%PATH%;D:/Binutils/rubygems-1.3.5/bin
 SET PATH=%PATH%;C:/Binutils/rubygems-1.3.5/bin
 SET PATH=C:/Binutils/apache-ant-1.7.0/bin/;%PATH%
 SET PATH=D:/Binutils/apache-ant-1.7.0/bin/;%PATH%
+SET PATH=C:/Progra~1/Git/bin;%PATH%
 
 Rem: set java home
 SET JAVA_HOME=C:/Progra~1/Java/jre6
