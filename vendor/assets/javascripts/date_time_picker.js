@@ -11,6 +11,7 @@ $(function() {
       var picker = $(this);
       var options = $.parseJSON(picker.attr("data-options"));
       var locale = picker.attr("data-locale");
+      if (locale == "en") locale = "";
       $.datepicker.setDefaults($.datepicker.regional[locale]);
       $.timepicker.setDefaults($.timepicker.regional[locale]);
       picker[fn](options);
