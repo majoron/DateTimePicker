@@ -18,6 +18,10 @@ Gem::Specification.new do |s|
   s.add_dependency 'json'
 
   s.files = Dir.glob(['vendor/assets/javascripts/*.js', 'vendor/assets/stylesheets/*.css', 'vendor/assets/timepicker/*.js', 'vendor/assets/timepicker/*.css']) + %w(MIT-LICENSE README.rdoc)
+  begin
+    Dir.mkdir 'vendor/assets/i18n'
+  rescue Errno::EEXIST
+  end
   dir = Dir.new 'vendor/assets/i18n'
   i18n = Dir['vendor/assets/timepicker/localization/*.js'].map do |d|
     if (r = /jquery-ui-timepicker-([\w-]+)\.js/.match d)
