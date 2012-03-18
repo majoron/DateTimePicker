@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
 
   s.platform = Gem::Platform::RUBY
   s.name = %q{date_time_picker}
-  s.version = "0.5.0"
+  s.version = "0.5.1"
 
   s.authors = ["Artem Rufanov"]
   s.date = %q{2011-12-25}
@@ -17,7 +17,23 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-rails'
   s.add_dependency 'json'
 
-  s.files      = Dir.glob(['vendor/assets/javascripts/*', 'vendor/assets/stylesheets/*', 'vendor/assets/jquery-ui/ui/i18n/jquery.ui.datepicker-*.js', 'vendor/assets/timepicker/**/*.js', 'vendor/assets/timepicker/*.css']) + %w(MIT-LICENSE README.rdoc)
+  s.files = Dir.glob(['vendor/assets/javascripts/*.js', 'vendor/assets/stylesheets/*.css', 'vendor/assets/timepicker/*.js', 'vendor/assets/timepicker/*.css']) + %w(MIT-LICENSE README.rdoc)
+  dir = Dir.new 'vendor/assets/i18n'
+  i18n = Dir['vendor/assets/timepicker/localization/*.js'].map do |d|
+    if (r = /jquery-ui-timepicker-([\w-]+)\.js/.match d)
+      locale = r[1]
+      l = File.read("vendor/assets/jquery-ui/ui/i18n/jquery.ui.datepicker-#{locale}.js")
+      l.concat File.read("vendor/assets/timepicker/localization/jquery-ui-timepicker-#{locale}.js")
+      l = l.split "\n"
+      l = l.map { |l| l=~/setDefaults/ ? '' : l }
+      l.join "\n"
+      f = File.open("#{dir.path}/date_time_picker_#{locale}.js", 'w')
+      f.puts l
+      f.close
+      f.path
+    end  
+  end  
+  s.files.concat i18n
   s.files.concat `git ls-files lib`.split("\n")
   s.test_files = `git ls-files test`.split("\n")
 

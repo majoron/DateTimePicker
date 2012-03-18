@@ -63,7 +63,7 @@ module DateTimePicker
     module AssetsHelper
       
       def date_time_picker_assets(locale = I18n.locale)
-        javascript_include_tag(:date_time_picker) + stylesheet_link_tag(:date_time_picker)
+        javascript_include_tag(:date_time_picker_all) + stylesheet_link_tag(:date_time_picker)
       end
 
     end
