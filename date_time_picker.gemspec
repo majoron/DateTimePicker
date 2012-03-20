@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
 
   s.platform = Gem::Platform::RUBY
   s.name = %q{date_time_picker}
-  s.version = "0.5.1"
+  s.version = "0.5.2"
 
   s.authors = ["Artem Rufanov"]
   s.date = %q{2011-12-25}
@@ -29,7 +29,18 @@ Gem::Specification.new do |s|
       l = File.read("vendor/assets/jquery-ui/ui/i18n/jquery.ui.datepicker-#{locale}.js")
       l.concat File.read("vendor/assets/timepicker/localization/jquery-ui-timepicker-#{locale}.js")
       l = l.split "\n"
-      l = l.map { |l| l=~/setDefaults/ ? '' : l }
+      l = l.map do |line|
+        case line
+        when /setDefaults/
+          ''
+        when '(function($) {'
+          'jQuery(function($) {'
+        when '})(jQuery);'
+          '});'
+        else
+          line
+        end
+      end
       l.join "\n"
       f = File.open("#{dir.path}/date_time_picker_#{locale}.js", 'w')
       f.puts l
