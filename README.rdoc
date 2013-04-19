@@ -16,11 +16,11 @@ Run generator to create initializer
 
   rails generate date_time_picker
 
-or create file manually and active date_time_picker like this inside an initializer:
+or create file manually and activate date_time_picker inside an initializer:
 
   DateTimePicker.activate :simple_form
 
-You can pass either only :simple_form to the activate method.
+You can pass only :simple_form to the activate method.
 
 == I18n
 
