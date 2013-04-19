@@ -12,6 +12,16 @@ Add this to your Gemfile and run the +bundle+ command
 
   gem 'date_time_picker'
 
+Run generator to create initializer
+
+  rails generate date_time_picker
+
+or create file manually and active date_time_picker like this inside an initializer:
+
+  DateTimePicker.activate :simple_form
+
+You can pass either only :simple_form to the activate method.
+
 == I18n
 
 By default plugin includes most using locales and you can require them from your application.js or using the helper, but if you want to add your locales 
@@ -48,3 +58,15 @@ Also available
   <%= date_picker :date_only %>
 
   <%= time_picker :time_only %>
+
+== SimpleForm support
+
+To use the picker inside the form 
+
+  <%= f.input :created_at, as: :ui_date_time %>
+
+Also available
+
+  <%= f.input :created_at, as: :ui_date %>
+
+  <%= f.input :created_at, as: :ui_time %>

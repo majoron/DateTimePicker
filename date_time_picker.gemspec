@@ -1,22 +1,17 @@
 # encoding: UTF-8
 
 Gem::Specification.new do |s|
-
   s.platform = Gem::Platform::RUBY
   s.name = %q{date_time_picker}
-  s.version = "0.5.2"
-
+  s.version = "0.5.3"
   s.authors = ["Artem Rufanov"]
   s.date = %q{2011-12-25}
   s.summary = %q{A library allows to select date and time.}
   s.email = %q{developers@majoron.com}
-
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'capybara'
-
   s.add_dependency 'jquery-rails'
   s.add_dependency 'json'
-
   s.files = Dir.glob(['vendor/assets/javascripts/*.js', 'vendor/assets/stylesheets/*.css', 'vendor/assets/timepicker/*.js', 'vendor/assets/timepicker/*.css']) + %w(MIT-LICENSE README.rdoc)
   begin
     Dir.mkdir 'vendor/assets/i18n'
@@ -49,10 +44,8 @@ Gem::Specification.new do |s|
     end  
   end  
   s.files.concat i18n
-  s.files.concat `git ls-files lib`.split("\n")
-  s.test_files = `git ls-files test`.split("\n")
-
+  s.files.concat (Dir.glob('lib/**/*') - Dir.glob('lib/api/**/*'))
+  s.test_files = Dir.glob('test/**/*')
   s.has_rdoc = true
   s.extra_rdoc_files << 'README.rdoc'
-
 end
