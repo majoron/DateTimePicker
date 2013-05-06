@@ -3,7 +3,7 @@
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = %q{date_time_picker}
-  s.version = "0.5.3"
+  s.version = "0.5.4"
   s.authors = ["Artem Rufanov"]
   s.date = %q{2011-12-25}
   s.summary = %q{A library allows to select date and time.}
