@@ -22,7 +22,12 @@ Gem::Specification.new do |s|
     if (r = /jquery-ui-timepicker-([\w-]+)\.js/.match d)
       locale = r[1]
       l = File.read("vendor/assets/jquery-ui/ui/i18n/jquery.ui.datepicker-#{locale}.js")
-      l.concat File.read("vendor/assets/timepicker/localization/jquery-ui-timepicker-#{locale}.js")
+      b = if locale == "pt-BR"
+            File.read("vendor/assets/timepicker/localization/jquery-ui-timepicker-#{locale}.js").force_encoding("ISO-8859-1").encode("UTF-8", replace: '')
+          else
+            File.read("vendor/assets/timepicker/localization/jquery-ui-timepicker-#{locale}.js")
+          end
+      l.concat b
       l = l.split "\n"
       l = l.map do |line|
         case line
