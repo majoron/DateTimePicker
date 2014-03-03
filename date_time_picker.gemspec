@@ -3,9 +3,9 @@
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = %q{date_time_picker}
-  s.version = "0.5.4"
+  s.version = "0.5.6"
   s.authors = ["Artem Rufanov"]
-  s.date = %q{2011-12-25}
+  s.date = %q{2014-03-03}
   s.summary = %q{A library allows to select date and time.}
   s.email = %q{developers@majoron.com}
   s.add_development_dependency 'rspec-rails'
