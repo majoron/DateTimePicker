@@ -15,7 +15,11 @@ module DateTimePicker
       end
       locale = options.delete :locale
       locale ||= I18n.locale
-      template.text_field_tag name, value, :id => id, :class => classes, :data => {:locale => locale, :options => options.to_json}
+      text_field_options = {:id => id, :class => classes, :data => {:locale => locale, :options => options.to_json}}
+      if options[:readonly]
+        text_field_options.merge!(:readonly => true)
+      end
+      template.text_field_tag name, value, text_field_options
     end
 
     def self.restore_args(args, method)
