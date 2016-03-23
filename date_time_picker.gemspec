@@ -1,17 +1,15 @@
 # encoding: UTF-8
+require File.expand_path('../lib/date_time_picker/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = %q{date_time_picker}
-  s.version = "0.5.6"
+  s.version = DateTimePicker::VERSION
   s.authors = ["Artem Rufanov"]
-  s.date = %q{2014-03-03}
   s.summary = %q{A library allows to select date and time.}
   s.email = %q{developers@majoron.com}
-  s.add_development_dependency 'rspec-rails'
-  s.add_development_dependency 'capybara'
-  s.add_dependency 'jquery-rails'
-  s.add_dependency 'json'
+  s.homepage = "https://github.com/majoron/DateTimePicker"
+
   s.files = Dir.glob(['vendor/assets/javascripts/*.js', 'vendor/assets/stylesheets/*.css', 'vendor/assets/timepicker/*.js', 'vendor/assets/timepicker/*.css']) + %w(MIT-LICENSE README.rdoc)
   begin
     Dir.mkdir 'vendor/assets/i18n'
@@ -53,4 +51,10 @@ Gem::Specification.new do |s|
   s.test_files = Dir.glob('test/**/*')
   s.has_rdoc = true
   s.extra_rdoc_files << 'README.rdoc'
+
+  s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'capybara'
+
+  s.add_dependency 'jquery-rails'
+  s.add_dependency 'json'
 end
